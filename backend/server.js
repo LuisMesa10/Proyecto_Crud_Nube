@@ -15,12 +15,16 @@ const app = express();
 
 // CORS - Permitir peticiones desde el frontend
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production'
-    ? ['https://proyecto-crud-nube-backend.onrender.com/'] // Actualizar después del despliegue
-    : ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:8080'],
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'], 
+  origin: [
+    'https://proyecto-crud-nube-frontend.onrender.com',  // EL DOMINIO DEL FRONTEND
+    'http://localhost:5173',
+    'http://localhost:5174',
+    'http://localhost:8080'
+  ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   credentials: true
-}));
+}))
+
  
 // Parsear JSON y URL-encoded
 app.use(express.json());
