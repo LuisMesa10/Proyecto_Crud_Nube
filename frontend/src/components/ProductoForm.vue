@@ -1,3 +1,4 @@
+
 <template>
   <div class="producto-form">
     <h2 class="form-title">
@@ -120,7 +121,19 @@ const formData = ref({
 // Modo edición
 const modoEdicion = ref(false)
 
-// Observar cambios en productoEditar
+// --- CORREGIDO: primero declaramos resetForm ---
+const resetForm = () => {
+  modoEdicion.value = false
+  formData.value = {
+    nombre: '',
+    descripcion: '',
+    precio: 0,
+    cantidad: 0,
+    categoria: ''
+  }
+}
+
+// --- El watcher ahora sí puede usar resetForm ---
 watch(() => props.productoEditar, (producto) => {
   if (producto) {
     modoEdicion.value = true
@@ -136,29 +149,16 @@ watch(() => props.productoEditar, (producto) => {
   }
 }, { immediate: true })
 
-// Enviar formulario
 const handleSubmit = () => {
   emit('submit', { ...formData.value })
 }
 
-// Cancelar edición
 const cancelarEdicion = () => {
   resetForm()
   emit('cancelar')
 }
-
-// Resetear formulario
-const resetForm = () => {
-  modoEdicion.value = false
-  formData.value = {
-    nombre: '',
-    descripcion: '',
-    precio: 0,
-    cantidad: 0,
-    categoria: ''
-  }
-}
 </script>
+
 
 <style scoped>
 .producto-form {

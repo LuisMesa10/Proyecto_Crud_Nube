@@ -1,7 +1,7 @@
 <template>
   <div class="producto-lista">
     <div class="lista-header">
-      <h2>📋 Lista de Productos</h2>
+      <h2> Lista de Productos</h2>
       <span class="badge">{{ productos.length }} productos</span>
     </div>
 

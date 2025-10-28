@@ -1,7 +1,7 @@
 <template>
   <div class="xml-viewer">
     <div class="viewer-header">
-      <h2>📄 Informe XML del Inventario</h2>
+      <h2>Informe XML del Inventario</h2>
       <button class="btn btn-primary" @click="verXML">
         Ver Árbol XML Completo
       </button>
@@ -9,19 +9,15 @@
 
     <div v-if="mostrarInfo" class="xml-info">
       <p class="info-text">
-        ℹ️ El informe XML contiene la estructura completa del inventario con:
+         El informe XML contiene la estructura completa del inventario con:
       </p>
       <ul class="info-list">
-        <li>✅ Árbol XML jerárquico estructurado</li>
-        <li>✅ Valor total del inventario calculado</li>
-        <li>✅ Porcentaje de participación de cada producto</li>
-        <li>✅ Porcentaje de cantidad respecto al total</li>
+        <li>Árbol XML jerárquico estructurado</li>
+        <li>Valor total del inventario calculado</li>
+        <li>Porcentaje de participación de cada producto</li>
+        <li>Porcentaje de cantidad respecto al total</li>
       </ul>
-      <div class="alert alert-info">
-        <strong>📊 Visualización:</strong> Al hacer click en "Ver Árbol XML Completo",
-        se abrirá una nueva ventana mostrando el XML con formato legible y estructura colapsable.
-        Los navegadores modernos renderizan XML automáticamente como un árbol navegable.
-      </div>
+
     </div>
   </div>
 </template>

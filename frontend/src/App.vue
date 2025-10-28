@@ -3,8 +3,10 @@
     <!-- Header -->
     <header class="app-header">
       <div class="container">
-        <h1 class="app-title">📦 Sistema CRUD de Productos</h1>
-        <p class="app-subtitle">Gestión de Inventario con Informes XML</p>
+        <h1 class="app-title"> Sistema CRUD de Productos</h1>
+        <p class="app-subtitle">Gestión de Inventario con Informes XML y desplegado en la Nube.
+          <span class="spanNombres">Luis Mesa & Yarledy Zapata</span>
+        </p>
       </div>
     </header>
 
@@ -15,7 +17,7 @@
         <!-- Estadísticas -->
         <section class="stats-section">
           <div class="stat-card">
-            <div class="stat-icon">📊</div>
+            <div class="stat-icon"></div>
             <div class="stat-content">
               <div class="stat-value">{{ productos.length }}</div>
               <div class="stat-label">Total Productos</div>
@@ -23,7 +25,7 @@
           </div>
 
           <div class="stat-card">
-            <div class="stat-icon">💰</div>
+            <div class="stat-icon"></div>
             <div class="stat-content">
               <div class="stat-value">${{ valorInventario }}</div>
               <div class="stat-label">Valor Inventario</div>
@@ -31,7 +33,7 @@
           </div>
 
           <div class="stat-card">
-            <div class="stat-icon">📦</div>
+            <div class="stat-icon"></div>
             <div class="stat-content">
               <div class="stat-value">{{ cantidadTotal }}</div>
               <div class="stat-label">Unidades Totales</div>
@@ -68,7 +70,7 @@
 
     <!-- Footer -->
     <footer class="app-footer">
-      <p>&copy; 2025 Sistema CRUD | Desarrollado con MEVN Stack</p>
+      <p>&copy; 2025 Sistema CRUD | Desarrollado con MEVN Stack | Luis Mesa & Yarledy Zapata</p>
     </footer>
   </div>
 </template>
@@ -247,6 +249,17 @@ body {
   color: #2c3e50;
   line-height: 1.6;
 }
+.spanNombres{
+  font-size: x-small;
+  font-weight: bold;
+  transition: all 0.3s ease; /* para que el cambio sea suave */
+
+}
+.spanNombres:hover{
+  color:azure;
+  font-size: medium;
+
+}
 
 #app {
   min-height: 100vh;
@@ -316,6 +329,7 @@ body {
   font-size: 2rem;
   font-weight: bold;
   color: #2c3e50;
+  text-align: center;
 }
 
 .stat-label {
