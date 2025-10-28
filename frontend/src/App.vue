@@ -256,7 +256,7 @@ body {
 
 }
 .spanNombres:hover{
-  color:azure;
+  color:cadetblue;
   font-size: medium;
 
 }
