@@ -10,7 +10,7 @@ const {
   eliminarProducto
 } = require('../controllers/productoController');
 
-const { generarInformeXML } = require('../utils/xmlGenerador');
+const { generarInformeXML, obtenerDatosInforme } = require('../utils/xmlGenerador');
 
 /**
  * Rutas CRUD estándar REST
@@ -36,5 +36,6 @@ router.delete('/:id', eliminarProducto);
  * IMPORTANTE: Debe ir ANTES de '/:id' para evitar conflictos
  */
 router.get('/informe/xml', generarInformeXML);
+router.get('/informe/datos', obtenerDatosInforme);
 
 module.exports = router;

@@ -6,7 +6,8 @@ import axios from 'axios'
  */
 
 // URL base desde variables de entorno
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api'
+const API_URL =
+  import.meta.env.VITE_API_URL || 'http://localhost:5000/api'
 
 // Crear instancia de Axios
 const apiClient = axios.create({
@@ -22,6 +23,14 @@ const apiClient = axios.create({
  * Encapsula todas las operaciones CRUD
  */
 export const productoService = {
+
+  /**
+   * Obtener datos del informe para gráficos
+   */
+  obtenerDatosInforme() {
+    return apiClient.get('/productos/informe/datos')
+  },
+
   /**
    * Obtener todos los productos
    * GET /api/productos
@@ -72,7 +81,8 @@ export const productoService = {
 }
 
 // Interceptor para logging (desarrollo)
-if (import.meta.env.DEV) {
+if (
+  import.meta.env.DEV) {
   apiClient.interceptors.request.use(request => {
     console.log('Request:', request.method.toUpperCase(), request.url)
     return request

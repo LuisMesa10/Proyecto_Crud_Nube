@@ -2,40 +2,42 @@
   <div class="xml-viewer">
     <div class="viewer-header">
       <h2>Informe XML del Inventario</h2>
-      <button class="btn btn-primary" @click="verXML">
-        Ver Árbol XML Completo
-      </button>
+      <div class="button-group">
+        <button
+          class="btn"
+          :class="{ active: vista === 'arbol-tradicional' }"
+          @click="vista = 'arbol-tradicional'"
+        >
+          XML
+        </button>
+        <button
+          class="btn"
+          :class="{ active: vista === 'arbol-visual' }"
+          @click="vista = 'arbol-visual'"
+        >
+          XML Gráfico
+        </button>
+      </div>
     </div>
 
-    <div v-if="mostrarInfo" class="xml-info">
-      <p class="info-text">
-         El informe XML contiene la estructura completa del inventario con:
-      </p>
-      <ul class="info-list">
-        <li>Árbol XML jerárquico estructurado</li>
-        <li>Valor total del inventario calculado</li>
-        <li>Porcentaje de participación de cada producto</li>
-        <li>Porcentaje de cantidad respecto al total</li>
-      </ul>
+    <!-- Árbol tradicional -->
+    <div v-show="vista === 'arbol-tradicional'">
+      <ArbolXML />
+    </div>
 
+    <!-- Árbol visual con líneas -->
+    <div v-show="vista === 'arbol-visual'">
+      <ArbolXMLVisual />
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import { productoService } from '@/services/api'
+import ArbolXML from './ArbolXML.vue'
+import ArbolXMLVisual from './ArbolXMLVisual.vue'
 
-const mostrarInfo = ref(true)
-
-/**
- * Abrir informe XML en nueva ventana
- * El navegador mostrará el árbol XML con formato
- */
-const verXML = () => {
-  const xmlURL = productoService.getURLInformeXML()
-  window.open(xmlURL, '_blank', 'width=800,height=600')
-}
+const vista = ref('arbol-tradicional')
 </script>
 
 <style scoped>
@@ -61,65 +63,29 @@ const verXML = () => {
   color: #2c3e50;
 }
 
+.button-group {
+  display: flex;
+  gap: 1rem;
+}
+
 .btn {
   padding: 0.75rem 1.5rem;
-  border: none;
+  border: 2px solid #667eea;
+  background: white;
+  color: #667eea;
   border-radius: 6px;
-  font-size: 1rem;
-  font-weight: 600;
   cursor: pointer;
+  font-weight: 600;
   transition: all 0.3s;
 }
 
-.btn-primary {
+.btn:hover {
+  background: #f8f9fa;
+}
+
+.btn.active {
   background: #667eea;
   color: white;
-}
-
-.btn-primary:hover {
-  background: #5568d3;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-}
-
-.xml-info {
-  background: #f8f9fa;
-  padding: 1.5rem;
-  border-radius: 6px;
-  border-left: 4px solid #667eea;
-}
-
-.info-text {
-  margin: 0 0 1rem 0;
-  color: #2c3e50;
-  font-weight: 600;
-}
-
-.info-list {
-  margin: 0 0 1rem 0;
-  padding-left: 1.5rem;
-}
-
-.info-list li {
-  margin-bottom: 0.5rem;
-  color: #5d6d7e;
-}
-
-.alert {
-  padding: 1rem;
-  border-radius: 6px;
-  margin-top: 1rem;
-}
-
-.alert-info {
-  background: #e3f2fd;
-  border: 1px solid #90caf9;
-  color: #1565c0;
-}
-
-.alert strong {
-  display: block;
-  margin-bottom: 0.5rem;
 }
 
 @media (max-width: 768px) {
@@ -128,8 +94,12 @@ const verXML = () => {
     align-items: flex-start;
   }
 
-  .viewer-header .btn {
+  .button-group {
     width: 100%;
+  }
+
+  .button-group .btn {
+    flex: 1;
   }
 }
 </style>

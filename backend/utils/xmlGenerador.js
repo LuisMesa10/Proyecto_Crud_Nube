@@ -1,6 +1,98 @@
 const Producto = require('../models/Producto');
 const { js2xml } = require('xml-js');
 
+
+/**
+ * Obtener datos del informe en formato JSON para gráficos
+ * @route GET /api/productos/informe/datos
+ */
+exports.obtenerDatosInforme = async (req, res) => {
+  try {
+    const Producto = require('../models/Producto');
+    const productos = await Producto.find().sort({ categoria: 1, nombre: 1 });
+    
+    if (productos.length === 0) {
+      return res.status(404).json({
+        success: false,
+        mensaje: 'No hay productos para generar el informe'
+      });
+    }
+    
+    const cantidadTotal = productos.reduce((sum, p) => sum + p.cantidad, 0);
+    const valorTotal = productos.reduce((sum, p) => sum + (p.precio * p.cantidad), 0);
+    
+    const datosGrafico = productos.map(p => {
+      const valorProducto = p.precio * p.cantidad;
+      const porcentajeValor = valorTotal > 0 
+        ? ((valorProducto / valorTotal) * 100).toFixed(2)
+        : 0;
+      
+      return {
+        nombre: p.nombre,
+        precio: parseFloat(p.precio).toFixed(2),
+        valorTotal: valorProducto.toFixed(2),
+        porcentajeValor: parseFloat(porcentajeValor),
+        cantidad: p.cantidad,
+        categoria: p.categoria
+      };
+    });
+
+    // Construir estructura del árbol XML como objeto
+    const arbolXML = {
+      informe: {
+        _attributes: {
+          fecha: new Date().toISOString(),
+          tipo: 'Inventario de Productos'
+        },
+        resumen: {
+          totalProductos: productos.length,
+          cantidadTotal: cantidadTotal,
+          valorTotal: parseFloat(valorTotal.toFixed(2))
+        },
+        productos: {
+          producto: productos.map(p => {
+            const valorProducto = p.precio * p.cantidad;
+            const porcentajeValor = valorTotal > 0 
+              ? ((valorProducto / valorTotal) * 100).toFixed(2)
+              : 0;
+
+            return {
+              _attributes: { id: p._id.toString() },
+              nombre: p.nombre,
+              descripcion: p.descripcion || 'Sin descripción',
+              categoria: p.categoria,
+              precio: parseFloat(p.precio.toFixed(2)),
+              cantidad: p.cantidad,
+              valorTotal: parseFloat(valorProducto.toFixed(2)),
+              porcentajeValor: parseFloat(porcentajeValor)
+            };
+          })
+        }
+      }
+    };
+    
+    res.status(200).json({
+      success: true,
+      resumen: {
+        totalProductos: productos.length,
+        cantidadTotal,
+        valorTotal: valorTotal.toFixed(2)
+      },
+      productos: datosGrafico,
+      arbolXML: arbolXML  // Agregar el árbol aquí
+    });
+    
+  } catch (error) {
+    console.error('Error al obtener datos del informe:', error);
+    res.status(500).json({
+      success: false,
+      mensaje: 'Error al obtener datos del informe',
+      error: error.message
+    });
+  }
+};
+
+
 /**
  * Generar informe XML completo del inventario
  * Incluye árbol XML estructurado, valor total y porcentajes
