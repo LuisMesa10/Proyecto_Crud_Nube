@@ -13,7 +13,7 @@ const app = express();
 
 // ==================== MIDDLEWARES ====================
 
-// CORS - Permitir peticiones desde el frontend
+// ✅ Mover el CORS al inicio
 app.use(cors({
   origin: [
     'https://proyecto-crud-nube-frontend.onrender.com',  // EL DOMINIO DEL FRONTEND
@@ -22,13 +22,20 @@ app.use(cors({
     'http://localhost:8080'
   ],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  credentials: true
-}))
+  credentials: true,
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
 
- 
-// Parsear JSON y URL-encoded
+// ✅ Parsear JSON y URL-encoded
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// ✅ Rutas de autenticación (ahora sí después del CORS)
+const authRoutes = require("./routes/auth");
+app.use("/api/auth", authRoutes);
+
+// ✅ Rutas de productos
+app.use('/api/productos', productosRoutes);
 
 // ==================== RUTAS ====================
 
